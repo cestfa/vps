@@ -1,0 +1,13 @@
+services:
+  mediaflow-proxy:
+    image: ghcr.io/mhdzumair/mediaflow-proxy-light:latest
+    container_name: mediaflow-proxy
+    restart: always
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+    environment:
+      - TZ=${TZ:-UTC}
+      - APP__AUTH__API_PASSWORD=${MEDIAFLOW_API_PASSWORD}
+      - CONFIG_PATH=/app/config.toml
+    depends_on:
+      - warp

@@ -1,0 +1,22 @@
+include:
+  - apps/adguard/compose.yaml
+  - apps/aiometadata/compose.yaml
+  - apps/aiostreams/compose.yaml
+  - apps/beszel/compose.yaml
+  - apps/caddy/compose.yaml
+  - apps/dispatcharr/compose.yaml
+  - apps/filebrowser/compose.yaml
+  - apps/ghostfolio/compose.yaml
+  - apps/honey/compose.yaml
+  - apps/mediaflow-proxy/compose.yaml
+  - apps/stirling-pdf/compose.yaml
+  - apps/uptime-kuma/compose.yaml
+  - apps/wallos/compose.yaml
+  - apps/warp/compose.yaml
+  - apps/watchtower/compose.yaml
+  - apps/wg-easy/compose.yaml
+
+networks:
+  default:
+    name: ${DOCKER_NETWORK:-vps_network}
+    external: false

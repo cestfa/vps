@@ -1,0 +1,66 @@
+services:
+  ghostfolio:
+    image: ghostfolio/ghostfolio:latest
+    container_name: ghostfolio
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-UTC}
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://ghostfolio:${GHOSTFOLIO_POSTGRES_PASSWORD}@ghostfolio-db:5432/ghostfolio?sslmode=disable
+      - REDIS_HOST=ghostfolio-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${GHOSTFOLIO_REDIS_PASSWORD}
+      - ACCESS_TOKEN_SALT=${GHOSTFOLIO_ACCESS_TOKEN_SALT}
+      - JWT_SECRET_KEY=${GHOSTFOLIO_JWT_SECRET_KEY}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3333/api/v1/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      ghostfolio-db:
+        condition: service_healthy
+      ghostfolio-redis:
+        condition: service_healthy
+
+  ghostfolio-db:
+    image: postgres:16-alpine
+    container_name: ghostfolio-db
+    restart: unless-stopped
+    command: >
+      postgres
+        -c shared_buffers=128MB
+        -c work_mem=8MB
+        -c maintenance_work_mem=64MB
+        -c effective_cache_size=256MB
+        -c max_connections=50
+        -c wal_compression=on
+    volumes:
+      - ${DOCKER_DATA_DIR}/ghostfolio/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=ghostfolio
+      - POSTGRES_USER=ghostfolio
+      - POSTGRES_PASSWORD=${GHOSTFOLIO_POSTGRES_PASSWORD}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    stop_grace_period: 15s
+
+  ghostfolio-redis:
+    image: redis:alpine
+    container_name: ghostfolio-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${GHOSTFOLIO_REDIS_PASSWORD}
+    environment:
+      - REDIS_PASSWORD=${GHOSTFOLIO_REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $$REDIS_PASSWORD --no-auth-warning ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

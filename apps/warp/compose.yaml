@@ -1,0 +1,17 @@
+services:
+  warp:
+    image: caomingjun/warp:latest
+    container_name: warp
+    restart: always
+    volumes:
+      - warp-data:/var/lib/cloudflare-warp
+    environment:
+      - WARP_SLEEP=2
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+      - net.ipv4.conf.all.src_valid_mark=1
+
+volumes:
+  warp-data:

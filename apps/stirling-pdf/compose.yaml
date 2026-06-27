@@ -1,0 +1,16 @@
+services:
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    container_name: stirling-pdf
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_DATA_DIR}/stirling-pdf/tessdata:/usr/share/tessdata
+      - ${DOCKER_DATA_DIR}/stirling-pdf/configs:/configs
+      - ${DOCKER_DATA_DIR}/stirling-pdf/customFiles:/customFiles
+      - ${DOCKER_DATA_DIR}/stirling-pdf/pipeline:/pipeline
+    environment:
+      - TZ=${TZ:-UTC}
+      - DISABLE_ADDITIONAL_FEATURES=false
+      - SECURITY_ENABLELOGIN=true
+      - SYSTEM_MAXFILESIZE=250
+      - SYSTEM_FRONTENDURL=https://${STIRLING_PDF_HOSTNAME}

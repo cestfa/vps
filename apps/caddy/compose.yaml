@@ -1,0 +1,36 @@
+services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${DOCKER_DATA_DIR}/caddy/data:/data
+      - ${DOCKER_DATA_DIR}/caddy/config:/config
+    environment:
+      - TZ=${TZ:-UTC}
+      - DOMAIN=${DOMAIN}
+      - ADGUARD_PORT=${ADGUARD_PORT:-80}
+      - ADGUARD_HOSTNAME=${ADGUARD_HOSTNAME}
+      - AIOMETADATA_HOSTNAME=${AIOMETADATA_HOSTNAME}
+      - AIOSTREAMS_HOSTNAME=${AIOSTREAMS_HOSTNAME}
+      - BESZEL_HOSTNAME=${BESZEL_HOSTNAME}
+      - DISPATCHARR_HOSTNAME=${DISPATCHARR_HOSTNAME}
+      - FILEBROWSER_HOSTNAME=${FILEBROWSER_HOSTNAME}
+      - GHOSTFOLIO_HOSTNAME=${GHOSTFOLIO_HOSTNAME}
+      - HONEY_HOSTNAME=${HONEY_HOSTNAME}
+      - MEDIAFLOW_PROXY_HOSTNAME=${MEDIAFLOW_PROXY_HOSTNAME}
+      - STIRLING_PDF_HOSTNAME=${STIRLING_PDF_HOSTNAME}
+      - UPTIME_KUMA_HOSTNAME=${UPTIME_KUMA_HOSTNAME}
+      - WALLOS_HOSTNAME=${WALLOS_HOSTNAME}
+      - WG_EASY_HOSTNAME=${WG_EASY_HOSTNAME}
+    healthcheck:
+      test: ["CMD", "caddy", "validate", "--config", "/etc/caddy/Caddyfile"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

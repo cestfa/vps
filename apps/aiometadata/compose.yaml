@@ -1,0 +1,31 @@
+services:
+  aiometadata:
+    image: ghcr.io/cedya77/aiometadata:latest
+    container_name: aiometadata
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_DATA_DIR}/aiometadata:/app/addon/data
+    environment:
+      - TZ=${TZ:-UTC}
+      - HOST_NAME=https://${AIOMETADATA_HOSTNAME}
+      - DATABASE_URI=sqlite:///app/addon/data/db.sqlite
+      - REDIS_URL=redis://aiometadata-redis:6379
+      - ADMIN_KEY=${AIOMETADATA_ADMIN_KEY}
+      - ADDON_PASSWORD=${AIOMETADATA_ADDON_PASSWORD}
+      - TRAKT_CLIENT_ID=${AIOMETADATA_TRAKT_CLIENT_ID}
+      - TRAKT_CLIENT_SECRET=${AIOMETADATA_TRAKT_CLIENT_SECRET}
+      - TRAKT_REDIRECT_URI=https://${AIOMETADATA_HOSTNAME}/api/auth/trakt/callback
+    depends_on:
+      aiometadata-redis:
+        condition: service_healthy
+
+  aiometadata-redis:
+    image: redis:alpine
+    container_name: aiometadata-redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

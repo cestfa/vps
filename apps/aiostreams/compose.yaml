@@ -1,0 +1,16 @@
+services:
+  aiostreams:
+    image: ghcr.io/viren070/aiostreams:latest
+    container_name: aiostreams
+    restart: unless-stopped
+
+    volumes:
+      - ${DOCKER_DATA_DIR}/aiostreams:/app/data
+    environment:
+      - TZ=${TZ:-UTC}
+      - BASE_URL=https://${AIOSTREAMS_HOSTNAME}
+      - SECRET_KEY=${AIOSTREAMS_SECRET_KEY}
+      - AIOSTREAMS_AUTH=${AIOSTREAMS_AUTH}
+      - AIOSTREAMS_AUTH_ADMINS=${AIOSTREAMS_AUTH_ADMINS}
+      - SEL_SYNC_ACCESS=all
+      - REGEX_FILTER_ACCESS=all

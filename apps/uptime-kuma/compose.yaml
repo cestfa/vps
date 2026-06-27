@@ -1,0 +1,9 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_DATA_DIR}/uptime-kuma:/app/data
+    environment:
+      - TZ=${TZ:-UTC}
