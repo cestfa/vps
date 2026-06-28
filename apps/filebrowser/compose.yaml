@@ -4,7 +4,9 @@ services:
     container_name: filebrowser
     restart: unless-stopped
     volumes:
-      - /opt/docker:/srv
+      - /opt:/srv/opt
+      - /home:/srv/home
+      - /mnt:/srv/storage
       - ${DOCKER_DATA_DIR}/filebrowser:/config
     environment:
       - TZ=${TZ:-UTC}
