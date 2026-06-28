@@ -6,7 +6,6 @@ services:
     volumes:
       - /opt:/srv/opt
       - /home:/srv/home
-      - /mnt:/srv/storage
       - ${DOCKER_DATA_DIR}/filebrowser:/config
     environment:
       - TZ=${TZ:-UTC}
