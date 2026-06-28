@@ -1,17 +1,18 @@
 services:
   filebrowser:
-    image: hurlenko/filebrowser:latest
+    image: filebrowser/filebrowser:latest
     container_name: filebrowser
     restart: unless-stopped
+    user: "0:0"
     volumes:
       - /opt:/srv/opt
       - /home:/srv/home
-      - ${DOCKER_DATA_DIR}/filebrowser:/config
+      - ${DOCKER_DATA_DIR}/filebrowser/filebrowser.db:/database/filebrowser.db
+      - ${DOCKER_DATA_DIR}/filebrowser/settings.json:/config/settings.json
     environment:
       - TZ=${TZ:-UTC}
-      - FB_ROOT=/srv
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1"]
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3
