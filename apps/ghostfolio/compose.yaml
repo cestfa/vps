@@ -12,6 +12,7 @@ services:
       - REDIS_PASSWORD=${GHOSTFOLIO_REDIS_PASSWORD}
       - ACCESS_TOKEN_SALT=${GHOSTFOLIO_ACCESS_TOKEN_SALT}
       - JWT_SECRET_KEY=${GHOSTFOLIO_JWT_SECRET_KEY}
+      - PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:3333/api/v1/health || exit 1"]
       interval: 30s
