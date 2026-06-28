@@ -36,7 +36,7 @@
 
 {$FILEBROWSER_HOSTNAME} {
     import common
-    reverse_proxy filebrowser:8080
+    reverse_proxy filebrowser:80
 }
 
 {$GHOSTFOLIO_HOSTNAME} {
