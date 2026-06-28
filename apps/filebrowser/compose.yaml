@@ -1,16 +1,15 @@
 services:
   filebrowser:
-    image: filebrowser/filebrowser:v2-alpine
+    image: hurlenko/filebrowser:latest
     container_name: filebrowser
     restart: unless-stopped
-    command: -d /config/filebrowser.db -p 80
     volumes:
       - /opt:/srv
       - ${DOCKER_DATA_DIR}/filebrowser:/config
     environment:
       - TZ=${TZ:-UTC}
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1"]
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3
