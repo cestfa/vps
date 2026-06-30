@@ -54,6 +54,11 @@
     reverse_proxy mediaflow-proxy:8888
 }
 
+{$PLEX_HOSTNAME} {
+    import common
+    reverse_proxy plex:32400
+}
+
 {$STIRLING_PDF_HOSTNAME} {
     import common
     reverse_proxy stirling-pdf:8080

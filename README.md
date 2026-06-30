@@ -15,6 +15,7 @@ A self-hosted Docker stack for a personal VPS. All services run behind Caddy (re
 | **Ghostfolio** | `ghostfolio.$DOMAIN` | Portfolio tracker and personal wealth manager |
 | **Honey** | `$DOMAIN` | Dashboard / start page listing all services |
 | **MediaFlow Proxy** | `mediaflow.$DOMAIN` | High-performance edge proxy for Debrid streams |
+| **Plex** | `plex.$DOMAIN` | Music (and media) server, streamed to family via PlexAmp on Android/iOS |
 | **Stirling-PDF** | `pdf.$DOMAIN` | Browser-based PDF manipulation tools |
 | **Uptime Kuma** | `uptime.$DOMAIN` | Service uptime monitoring and alerting |
 | **Wallos** | `wallos.$DOMAIN` | Recurring subscription tracker |
@@ -199,6 +200,23 @@ In AdGuard → **Settings** → **Encryption settings**:
 
 > [!NOTE]
 > This is a **one-time setup**. Because the certificate directory is mapped as a shared volume, AdGuard Home will automatically detect and load updated certificates when Caddy renews them.
+
+---
+
+### 7. Plex Music Server Setup
+
+1.  Get a one-time claim token from [plex.tv/claim](https://plex.tv/claim) (stay logged into your Plex account — the token expires after 4 minutes).
+2.  Paste it into `PLEX_CLAIM` in your `.env`, then start the container:
+    ```bash
+    docker compose up -d plex
+    ```
+3.  Drop your music files (organized as `Artist/Album/Track.flac`) into the host path set by `PLEX_MUSIC_DIR`.
+4.  Open `https://plex.$DOMAIN`, finish the setup wizard, and add a Music library pointed at `/music`.
+5.  In **Settings → Network → Custom server access URLs**, add `https://plex.$DOMAIN:443`. This tells Plex how to advertise itself externally, since it sits behind Caddy rather than a home router — Plex's automatic remote-access detection won't apply here, but the server is still reachable for everyone once this is set.
+6.  Invite your family: **Settings → Manage Library Access → Invite Friend** (their email), grant them the Music library. They install the free **PlexAmp** app (Android/iOS) and log in with their own Plex account.
+
+> [!NOTE]
+> `PLEX_CLAIM` is only consumed once, on first launch. You can clear it from `.env` afterwards.
 
 ---
 

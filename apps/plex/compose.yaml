@@ -1,0 +1,21 @@
+services:
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-UTC}
+      - PLEX_UID=${PUID:-1000}
+      - PLEX_GID=${PGID:-1000}
+      - PLEX_CLAIM=${PLEX_CLAIM}
+      - ADVERTISE_IP=https://${PLEX_HOSTNAME}:443
+    volumes:
+      - ${DOCKER_DATA_DIR}/plex/config:/config
+      - ${DOCKER_DATA_DIR}/plex/transcode:/transcode
+      - ${PLEX_MUSIC_DIR:-${DOCKER_DATA_DIR}/plex/music}:/music
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:32400/identity || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
