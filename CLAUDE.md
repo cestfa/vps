@@ -85,6 +85,7 @@ Healthchecks are added where a reliable, officially-documented or universally-st
 |---|---|---|
 | `caddy` | `caddy validate --config /etc/caddy/Caddyfile` | Uses caddy binary itself — no curl/wget needed |
 | `adguard` | `wget -qO- http://localhost:80` | Port 80 = post-setup; port 3000 during wizard |
+| `aiomanager` | `/nodejs/bin/node server/healthcheck.js` | Official healthcheck script (runs on port 1610 in distroless node image) |
 | `dispatcharr` | `curl -fs http://localhost:9191/health/` | Official `/health/` endpoint |
 | `ghostfolio` | `curl -f http://localhost:3333/api/v1/health` | Official unauthenticated endpoint |
 | `ghostfolio-db` | `pg_isready -U $POSTGRES_USER -d $POSTGRES_DB` | Universal postgres standard |

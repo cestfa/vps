@@ -14,6 +14,11 @@
     reverse_proxy adguard:{$ADGUARD_PORT}
 }
 
+{$AIOMANAGER_HOSTNAME} {
+    import common
+    reverse_proxy aiomanager:1610
+}
+
 {$AIOMETADATA_HOSTNAME} {
     import common
     reverse_proxy aiometadata:3232

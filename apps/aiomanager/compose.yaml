@@ -1,0 +1,22 @@
+services:
+  aiomanager:
+    image: ghcr.io/sonicx161/aiomanager:latest
+    container_name: aiomanager
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_DATA_DIR}/aiomanager:/app/data
+    environment:
+      - TZ=${TZ:-UTC}
+      - PORT=1610
+      - NODE_ENV=production
+      - DB_TYPE=sqlite
+      - DATA_DIR=/app/data
+      - DB_FILENAME=aio.db
+      - ENCRYPTION_KEY=${AIOMANAGER_ENCRYPTION_KEY}
+      - CORS_ORIGINS=${AIOMANAGER_CORS_ORIGINS:-*}
+    healthcheck:
+      test: [ "CMD", "/nodejs/bin/node", "server/healthcheck.js" ]
+      interval: 1m
+      timeout: 10s
+      retries: 5
+      start_period: 15s
