@@ -22,6 +22,12 @@
 			"icon": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/adguard-home.png"
 		},
 		{
+			"name": "AIOManager",
+			"desc": "Gestionnaire tout-en-un de configurations et de comptes Stremio avec synchronisation et basculement.",
+			"href": "https://aiomanager.cestfa.app",
+			"icon": "https://raw.githubusercontent.com/Sonicx161/AIOManager/main/public/logo.png"
+		},
+		{
 			"name": "AIOMetadata",
 			"desc": "Générateur et enrichisseur de métadonnées et de catalogues pour Stremio.",
 			"href": "https://aiometadata.cestfa.app",
