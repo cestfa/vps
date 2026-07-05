@@ -95,7 +95,7 @@ Healthchecks are added where a reliable, officially-documented or universally-st
 | `beszel-agent` | `/agent health` | Official binary subcommand (distroless image) |
 | `filebrowser` | `wget --no-verbose --tries=1 --spider http://localhost:80/` | Alpine image — wget available |
 | `plex` | `curl -fs http://localhost:32400/identity` | Official unauthenticated identity endpoint |
-| `warp`, `honey`, `uptime-kuma`, `watchtower`, `wallos`, `aiostreams`, `stirling-pdf`, `aiometadata`, `wg-easy` | — | Already healthy via image built-in HEALTHCHECK |
+| `aiometadata`, `aiostreams`, `honey`, `jellyfin`, `stirling-pdf`, `uptime-kuma`, `wallos`, `warp`, `watchtower`, `wg-easy` | — | Already healthy via image built-in HEALTHCHECK |
 | `mediaflow-proxy` | — | No healthcheck: `/health` endpoint exists but tool availability in minimal Rust image is unverified |
 
 When adding a healthcheck to a service that has dependencies (e.g. Redis, Postgres), also upgrade `depends_on` to use `condition: service_healthy` so the dependent service waits for a ready backing service.

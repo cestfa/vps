@@ -54,6 +54,11 @@
     reverse_proxy honey:4173
 }
 
+{$JELLYFIN_HOSTNAME} {
+    import common
+    reverse_proxy jellyfin:8096
+}
+
 {$MEDIAFLOW_PROXY_HOSTNAME} {
     import common
     reverse_proxy mediaflow-proxy:8888

@@ -64,6 +64,12 @@
 			"icon": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/ghostfolio.png"
 		},
 		{
+			"name": "Jellyfin",
+			"desc": "Système de serveur multimédia libre et open-source pour organiser, gérer et diffuser vos médias.",
+			"href": "https://jellyfin.cestfa.app",
+			"icon": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/jellyfin.png"
+		},
+		{
 			"name": "MediaFlow Proxy",
 			"desc": "Serveur proxy d'arête haute performance pour les flux multimédias Debrid en temps réel.",
 			"href": "https://mediaflow.cestfa.app",

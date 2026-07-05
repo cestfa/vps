@@ -9,6 +9,7 @@ include:
   - apps/filebrowser/compose.yaml
   - apps/ghostfolio/compose.yaml
   - apps/honey/compose.yaml
+  - apps/jellyfin/compose.yaml
   - apps/mediaflow-proxy/compose.yaml
   - apps/plex/compose.yaml
   - apps/stirling-pdf/compose.yaml

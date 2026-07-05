@@ -1,0 +1,12 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    user: ${PUID:-1000}:${PGID:-1000}
+    environment:
+      - TZ=${TZ:-UTC}
+    volumes:
+      - ${DOCKER_DATA_DIR}/jellyfin/config:/config
+      - ${DOCKER_DATA_DIR}/jellyfin/cache:/cache
+      - ${JELLYFIN_MEDIA_DIR:-${DOCKER_DATA_DIR}/jellyfin/media}:/media

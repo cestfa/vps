@@ -14,6 +14,7 @@ A self-hosted Docker stack for a personal VPS. All services run behind Caddy (re
 | **Filebrowser** | `files.$DOMAIN` | Web file manager to administer configuration files |
 | **Ghostfolio** | `ghostfolio.$DOMAIN` | Portfolio tracker and personal wealth manager |
 | **Honey** | `$DOMAIN` | Dashboard / start page listing all services |
+| **Jellyfin** | `jellyfin.$DOMAIN` | Media server for managing and streaming movies, shows, and music |
 | **MediaFlow Proxy** | `mediaflow.$DOMAIN` | High-performance edge proxy for Debrid streams |
 | **Plex** | `plex.$DOMAIN` | Music (and media) server, streamed to family via PlexAmp on Android/iOS |
 | **Stirling-PDF** | `pdf.$DOMAIN` | Browser-based PDF manipulation tools |
