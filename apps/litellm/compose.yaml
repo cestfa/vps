@@ -5,5 +5,26 @@ services:
     environment:
       - TZ=${TZ:-UTC}
       - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+      - LITELLM_SALT_KEY=${LITELLM_SALT_KEY}
+      - DATABASE_URL=postgresql://litellm:${LITELLM_DATABASE_PASSWORD}@litellm-db:5432/litellm
+      - STORE_MODEL_IN_DB=True
+    depends_on:
+      litellm-db:
+        condition: service_healthy
+
+  litellm-db:
+    image: postgres:16-alpine
+    container_name: litellm-db
+    restart: unless-stopped
     volumes:
-      - ${DOCKER_DATA_DIR}/litellm:/app/.env
+      - ${DOCKER_DATA_DIR}/litellm/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=litellm
+      - POSTGRES_USER=litellm
+      - POSTGRES_PASSWORD=${LITELLM_DATABASE_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
