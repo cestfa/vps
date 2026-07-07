@@ -59,6 +59,11 @@
     reverse_proxy jellyfin:8096
 }
 
+{$LITELLM_HOSTNAME} {
+    import common
+    reverse_proxy litellm:4000
+}
+
 {$MEDIAFLOW_PROXY_HOSTNAME} {
     import common
     reverse_proxy mediaflow-proxy:8888

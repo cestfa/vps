@@ -1,0 +1,9 @@
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:latest
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-UTC}
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+    volumes:
+      - ${DOCKER_DATA_DIR}/litellm:/app/.env

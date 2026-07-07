@@ -70,6 +70,12 @@
 			"icon": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/jellyfin.png"
 		},
 		{
+			"name": "LiteLLM",
+			"desc": "Proxy IA",
+			"href": "https://litemind.cestfa.app",
+			"icon": "https://github.com/BerriAI/litellm/blob/litellm_internal_staging/litellm/proxy/logo.jpg"
+		},
+		{
 			"name": "MediaFlow Proxy",
 			"desc": "Serveur proxy d'arête haute performance pour les flux multimédias Debrid en temps réel.",
 			"href": "https://mediaflow.cestfa.app",

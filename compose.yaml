@@ -10,6 +10,7 @@ include:
   - apps/ghostfolio/compose.yaml
   - apps/honey/compose.yaml
   - apps/jellyfin/compose.yaml
+  - apps/litellm/compose.yaml
   - apps/mediaflow-proxy/compose.yaml
   - apps/plex/compose.yaml
   - apps/stirling-pdf/compose.yaml
