@@ -109,6 +109,14 @@ cd /opt/docker
 cp .env.example .env
 ```
 
+**Set up persistent data directories**:
+Many containers in this stack (like Jellyfin, LiteLLM, Navidrome, Wallos, etc.) run securely under a non-root user (UID/GID `1000:1000`). To prevent database initialization and writing errors, create the persistent data directory on the host and assign it the correct permissions:
+
+```bash
+sudo mkdir -p /opt/docker/data
+sudo chown -R 1000:1000 /opt/docker/data
+```
+
 Edit your local [.env](file:///home/ceest/dev/vps/.env) and fill in your `DOMAIN` and secrets. You can generate random 32-character hex secrets using:
 
 ```bash
@@ -207,13 +215,39 @@ In AdGuard → **Settings** → **Encryption settings**:
 ### 7. Navidrome Music Server Setup
 
 1. Make sure your music files are organized on the host path set by `NAVIDROME_MUSIC_DIR` (e.g., `/opt/docker/data/navidrome/music`).
-2. Start the Navidrome container:
+2. **Set host permissions**: Navidrome runs securely as a non-root container (`user: "1000:1000"`). You must ensure the host data directory has the correct ownership, otherwise SQLite initialization will fail:
+    ```bash
+    sudo mkdir -p /opt/docker/data/navidrome
+    sudo chown -R 1000:1000 /opt/docker/data/navidrome
+    ```
+3. Start the Navidrome container:
     ```bash
     docker compose up -d navidrome
     ```
-3. Open `https://navidrome.$DOMAIN` in your browser. On first load, you will be prompted to create your admin account.
-4. Navidrome will automatically scan your music folder and build your library.
-5. To listen on mobile devices, install any Subsonic-compatible app (e.g., **Substreamer**, **play:Sub**, or **Amuse**) and point it to `https://navidrome.$DOMAIN` using your Navidrome account credentials.
+4. Open `https://navidrome.$DOMAIN` in your browser. On first load, you will be prompted to create your admin account.
+5. Navidrome will automatically scan your music folder and build your library.
+6. To listen on mobile devices, install any Subsonic-compatible app (e.g., **Substreamer**, **play:Sub**, or **Amuse**) and point it to `https://navidrome.$DOMAIN` using your Navidrome account credentials.
+
+---
+
+### 8. LiteLLM Setup (AI Gateway & Web Search Interception)
+
+LiteLLM operates as a centralized gateway for LLM APIs and features transparent server-side web search interception.
+
+1. **Configure Environment Secrets**: Open your `.env` file and set the required variables:
+   * `LITELLM_MASTER_KEY`: A secure administrative token. **MUST** start with the `sk-` prefix (e.g. `sk-MAKfY3796RXQMDkjKnX2qf...`).
+   * `LITELLM_DATABASE_PASSWORD`: Password for the underlying PostgreSQL container.
+   * `LITELLM_SALT_KEY`: Salt key used by LiteLLM for cryptographic operations.
+   * `LITELLM_GEMINI_API_KEY`: Your Google AI Studio API key.
+   * `LITELLM_TAVILY_API_KEY`: Your Tavily Search API key.
+   * `LITELLM_UI_USERNAME` & `LITELLM_UI_PASSWORD`: Credentials for the Admin UI login.
+2. Start the database and LiteLLM containers:
+   ```bash
+   docker compose up -d litellm-db litellm
+   ```
+3. Open `https://litellm.$DOMAIN` to access the Admin UI. Log in with your configured `LITELLM_UI_USERNAME` and `LITELLM_UI_PASSWORD`.
+4. Create a virtual key and configure your LLM clients (like Claude Code) to use your proxy URL (`https://litellm.$DOMAIN`) as their base URL.
+5. Search interception is enabled server-side for `gemini`, `anthropic`, `openai`, `vertex_ai`, and `bedrock` models. The client will query normally, LiteLLM will perform the Tavily web search, and return the answer back seamlessly.
 
 ---
 

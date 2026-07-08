@@ -53,7 +53,18 @@ MediaFlow routes all traffic through Warp (`caomingjun/warp`) so debrid add-ons 
 
 ## Navidrome
 
-Navidrome runs purely behind Caddy (`vps_network`, no `ports:`/`expose:`) since the VPS already has a public IP. It listens on internal port `4533`. The music directory is mounted read-only (`:ro`) to protect library files.
+Navidrome runs purely behind Caddy (`vps_network`, no `ports:`/`expose:`) since the VPS already has a public IP. It listens on internal port `4533`.
+- The container runs securely under the non-root user `user: "${PUID:-1000}:${PGID:-1000}"`.
+- **Permissions**: The persistent host directory `${DOCKER_DATA_DIR}/navidrome` (default `/opt/docker/data/navidrome`) **MUST** have its ownership recursively set to `1000:1000` (or `PUID:PGID`) via `sudo chown -R 1000:1000 /opt/docker/data/navidrome` so that the SQLite database file can be created and updated.
+- The music directory is mounted read-only (`:ro`) to protect library files.
+
+## LiteLLM
+
+LiteLLM runs behind Caddy on port `4000` using the startup command `["--config", "/app/config.yaml", "--port", "4000"]`. It utilizes a PostgreSQL database (`litellm-db`) for storing models and virtual keys.
+- **Master Key**: The `LITELLM_MASTER_KEY` environment variable **MUST** start with the `sk-` prefix.
+- **Admin UI**: Custom UI login credentials are set using `LITELLM_UI_USERNAME` and `LITELLM_UI_PASSWORD` on the host, which map to `UI_USERNAME` and `UI_PASSWORD` inside the container.
+- **Web Search**: Server-side web search interception is configured via Tavily. The variables `TAVILY_API_KEY` and `GEMINI_API_KEY` are forwarded directly to the container to satisfy backend API requirements.
+- **Interception**: Supported providers like `gemini`, `anthropic`, `openai`, `vertex_ai`, and `bedrock` are enabled for interception, making it fully compatible with client tools like Claude Code.
 
 ## Caddy
 
