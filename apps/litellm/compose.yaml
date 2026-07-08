@@ -7,4 +7,9 @@ services:
     environment:
       - TZ=${TZ:-UTC}
       - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+      - LITELLM_GEMINI_API_KEY=${LITELLM_GEMINI_API_KEY}
+      - LITELLM_TAVILY_API_KEY=${LITELLM_TAVILY_API_KEY}
+      - UI_USERNAME=${LITELLM_UI_USERNAME:-admin}
+      - UI_PASSWORD=${LITELLM_UI_PASSWORD:-${LITELLM_MASTER_KEY}}
     command: ["--config=/app/config.yaml"]
+
