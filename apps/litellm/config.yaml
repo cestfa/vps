@@ -1,0 +1,21 @@
+model_list:
+  - model_name: gemini/gemini-3.1-flash-lite
+    litellm_params:
+      model: gemini/gemini-3.1-flash-lite
+      api_key: $LITELLM_GEMINI_API_KEY
+
+litellm_settings:
+  callbacks: ["websearch_interception"]
+  websearch_interception_params:
+    enabled_providers: [gemini]
+    search_tool_name: tavily-search
+
+search_tools:
+  - search_tool_name: tavily-search
+    litellm_params:
+      search_provider: tavily
+      api_key: $LITELLM_TAVILY_API_KEY
+
+general_settings:
+  master_key: $LITELLM_MASTER_KEY
+  database_url: $DATABASE_URL
