@@ -9,6 +9,10 @@ litellm_settings:
   websearch_interception_params:
     enabled_providers:
       - gemini
+      - anthropic
+      - openai
+      - vertex_ai
+      - bedrock
     search_tool_name: tavily-search
 
 search_tools:
