@@ -2,6 +2,7 @@ services:
   litellm:
     image: ghcr.io/berriai/litellm:latest
     restart: unless-stopped
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
     volumes:
       - ./config.yaml:/app/config.yaml
     environment:
@@ -10,6 +11,8 @@ services:
       - LITELLM_SALT_KEY=${LITELLM_SALT_KEY}
       - DATABASE_URL=postgresql://litellm:${LITELLM_DATABASE_PASSWORD}@litellm-db:5432/litellm
       - STORE_MODEL_IN_DB=True
+      - UI_USERNAME=${LITELLM_UI_USERNAME}
+      - UI_PASSWORD=${LITELLM_UI_PASSWORD}
       - LITELLM_GEMINI_API_KEY=${LITELLM_GEMINI_API_KEY}
       - LITELLM_TAVILY_API_KEY=${LITELLM_TAVILY_API_KEY}
     depends_on:
