@@ -16,7 +16,3 @@ search_tools:
     litellm_params:
       search_provider: tavily
       api_key: os.environ/LITELLM_TAVILY_API_KEY
-
-general_settings:
-  master_key: os.environ/LITELLM_MASTER_KEY
-
