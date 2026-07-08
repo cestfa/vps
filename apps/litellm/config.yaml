@@ -18,4 +18,3 @@ search_tools:
 
 general_settings:
   master_key: $LITELLM_MASTER_KEY
-  database_url: postgresql://litellm:${LITELLM_DATABASE_PASSWORD}@litellm-db:5432/litellm
