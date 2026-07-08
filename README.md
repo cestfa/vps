@@ -16,7 +16,7 @@ A self-hosted Docker stack for a personal VPS. All services run behind Caddy (re
 | **Honey** | `$DOMAIN` | Dashboard / start page listing all services |
 | **Jellyfin** | `jellyfin.$DOMAIN` | Media server for managing and streaming movies, shows, and music |
 | **MediaFlow Proxy** | `mediaflow.$DOMAIN` | High-performance edge proxy for Debrid streams |
-| **Plex** | `plex.$DOMAIN` | Music (and media) server, streamed to family via PlexAmp on Android/iOS |
+| **Navidrome** | `navidrome.$DOMAIN` | Modern, lightweight music streaming server compatible with Subsonic clients |
 | **Stirling-PDF** | `pdf.$DOMAIN` | Browser-based PDF manipulation tools |
 | **Uptime Kuma** | `uptime.$DOMAIN` | Service uptime monitoring and alerting |
 | **Wallos** | `wallos.$DOMAIN` | Recurring subscription tracker |
@@ -204,20 +204,16 @@ In AdGuard → **Settings** → **Encryption settings**:
 
 ---
 
-### 7. Plex Music Server Setup
+### 7. Navidrome Music Server Setup
 
-1.  Get a one-time claim token from [plex.tv/claim](https://plex.tv/claim) (stay logged into your Plex account — the token expires after 4 minutes).
-2.  Paste it into `PLEX_CLAIM` in your `.env`, then start the container:
+1. Make sure your music files are organized on the host path set by `NAVIDROME_MUSIC_DIR` (e.g., `/opt/docker/data/navidrome/music`).
+2. Start the Navidrome container:
     ```bash
-    docker compose up -d plex
+    docker compose up -d navidrome
     ```
-3.  Drop your music files (organized as `Artist/Album/Track.flac`) into the host path set by `PLEX_MUSIC_DIR`.
-4.  Open `https://plex.$DOMAIN`, finish the setup wizard, and add a Music library pointed at `/music`.
-5.  In **Settings → Network → Custom server access URLs**, add `https://plex.$DOMAIN:443`. This tells Plex how to advertise itself externally, since it sits behind Caddy rather than a home router — Plex's automatic remote-access detection won't apply here, but the server is still reachable for everyone once this is set.
-6.  Invite your family: **Settings → Manage Library Access → Invite Friend** (their email), grant them the Music library. They install the free **PlexAmp** app (Android/iOS) and log in with their own Plex account.
-
-> [!NOTE]
-> `PLEX_CLAIM` is only consumed once, on first launch. You can clear it from `.env` afterwards.
+3. Open `https://navidrome.$DOMAIN` in your browser. On first load, you will be prompted to create your admin account.
+4. Navidrome will automatically scan your music folder and build your library.
+5. To listen on mobile devices, install any Subsonic-compatible app (e.g., **Substreamer**, **play:Sub**, or **Amuse**) and point it to `https://navidrome.$DOMAIN` using your Navidrome account credentials.
 
 ---
 

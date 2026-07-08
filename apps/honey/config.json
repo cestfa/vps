@@ -82,10 +82,10 @@
 			"icon": "https://raw.githubusercontent.com/mhdzumair/mediaflow-proxy/refs/heads/main/mediaflow_proxy/static/logo.png"
 		},
 		{
-			"name": "Plex",
-			"desc": "serveur multimédia et musical",
-			"href": "https://plex.cestfa.app",
-			"icon": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/plex.png"
+			"name": "Navidrome",
+			"desc": "serveur de streaming musical",
+			"href": "https://navidrome.cestfa.app",
+			"icon": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/navidrome.png"
 		},
 		{
 			"name": "Stirling-PDF",

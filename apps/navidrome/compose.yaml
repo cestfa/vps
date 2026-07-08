@@ -1,0 +1,22 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    user: "${PUID:-1000}:${PGID:-1000}"
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-UTC}
+      - ND_MUSICFOLDER=/music
+      - ND_DATAFOLDER=/data
+      - ND_LOGLEVEL=info
+      - ND_SCANSCHEDULE=@every 15m
+      - ND_TRANSCODING_CACHESIZE=500MB
+    volumes:
+      - ${DOCKER_DATA_DIR}/navidrome/data:/data
+      - ${NAVIDROME_MUSIC_DIR:-${DOCKER_DATA_DIR}/navidrome/music}:/music:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:4533/ping || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s

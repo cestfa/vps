@@ -51,9 +51,9 @@ MediaFlow routes all traffic through Warp (`caomingjun/warp`) so debrid add-ons 
 - MediaFlow uses `depends_on: [warp]` — starts after Warp container starts
 - `warp-data` volume persists the registration across restarts
 
-## Plex
+## Navidrome
 
-Plex runs purely behind Caddy (`vps_network`, no `ports:`/`expose:`) since the VPS already has a public IP — there's no router/NAT for Plex's own UPnP-based remote access to configure, so `ADVERTISE_IP=https://${PLEX_HOSTNAME}:443` tells Plex its externally reachable URL instead. `PLEX_CLAIM` is a one-time token (https://plex.tv/claim, 4-minute expiry) only needed on first launch to link the server to an account; it can be left blank afterwards.
+Navidrome runs purely behind Caddy (`vps_network`, no `ports:`/`expose:`) since the VPS already has a public IP. It listens on internal port `4533`. The music directory is mounted read-only (`:ro`) to protect library files.
 
 ## Caddy
 
@@ -94,7 +94,7 @@ Healthchecks are added where a reliable, officially-documented or universally-st
 | `beszel` | `/beszel health --url http://localhost:8090` | Official binary subcommand (distroless image) |
 | `beszel-agent` | `/agent health` | Official binary subcommand (distroless image) |
 | `filebrowser` | `wget --no-verbose --tries=1 --spider http://localhost:80/` | Alpine image — wget available |
-| `plex` | `curl -fs http://localhost:32400/identity` | Official unauthenticated identity endpoint |
+| `navidrome` | `wget -q --spider http://localhost:4533/ping` | Official unauthenticated ping endpoint |
 | `aiometadata`, `aiostreams`, `honey`, `jellyfin`, `stirling-pdf`, `uptime-kuma`, `wallos`, `warp`, `watchtower`, `wg-easy` | — | Already healthy via image built-in HEALTHCHECK |
 | `mediaflow-proxy` | — | No healthcheck: `/health` endpoint exists but tool availability in minimal Rust image is unverified |
 
